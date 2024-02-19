@@ -40,7 +40,7 @@ const SignUpPage = () => {
 				<Form {...signUpForm}>
 					<form
 						onSubmit={signUpForm.handleSubmit(onSubmit)}
-						className="mx-8 md:mx-0 space-y-8 mt-8 shadow-lg p-8 border rounded-md"
+						className="mx-8 md:mx-0 space-y-6 mt-8 shadow-lg p-8 border rounded-md"
 					>
 						<h1 className="text-5xl text-center font-bold">Sign Up</h1>
 						<FormDescription className="text-center">

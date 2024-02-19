@@ -4,7 +4,7 @@ import TasksTable from '@/containers/TasksTable'
 
 const HomePage = () => {
 	return (
-		<main className="p-2">
+		<main className="p-6">
 			<Container>
 				<h2 className="text-3xl font-bold">Tasks</h2>
 				<Separator className="my-4" />
