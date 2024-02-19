@@ -1,11 +1,18 @@
 //slices are two kinds:
 // local slice that holds local data
 // api slice which implements the redux thunk middleware to make async requests
+import { Role } from '@/types/types'
 import { createSlice } from '@reduxjs/toolkit'
 
 //TODO add proper state type
+type UserInfo = {
+	_id: string
+	email: string
+	username: string
+	role: Role
+}
 interface AuthState {
-	userInfo: any | null
+	userInfo: UserInfo | null
 }
 
 const initialState: AuthState = {

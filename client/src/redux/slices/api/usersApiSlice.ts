@@ -11,6 +11,12 @@ const usersApiSlice = apiSlice.injectEndpoints({
 			}),
 			providesTags: ['User'],
 		}),
+		getUser: builder.query({
+			query: (userID: string) => ({
+				url: `${USERS_URL}/${userID}`,
+				method: 'GET',
+			}),
+		}),
 		createUser: builder.mutation({
 			query: (signUpInput: SignUpInput) => ({
 				url: `${USERS_URL}`,
@@ -30,4 +36,4 @@ const usersApiSlice = apiSlice.injectEndpoints({
 })
 
 //hooks
-export const { useCreateUserMutation, useGetUsersQuery, useDeleteUserMutation } = usersApiSlice
+export const { useCreateUserMutation, useGetUsersQuery, useDeleteUserMutation, useGetUserQuery } = usersApiSlice

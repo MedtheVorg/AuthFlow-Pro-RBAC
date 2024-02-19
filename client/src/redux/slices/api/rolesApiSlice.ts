@@ -31,7 +31,7 @@ const rolesApiSlice = apiSlice.injectEndpoints({
 				method: 'PATCH',
 				body: roleInput,
 			}),
-			invalidatesTags: ['Role'],
+			invalidatesTags: ['Role', 'User'],
 		}),
 		assignRole: builder.mutation({
 			query: ({ roleID, userID }: { roleID: string; userID: string }) => ({
