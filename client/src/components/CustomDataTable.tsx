@@ -87,7 +87,7 @@ export function CustomDataTable<TData, TValue>({
 							</DialogHeader>
 						</DialogContent>
 						<DialogTrigger asChild>
-							<Button type="submit">Add task</Button>
+							<Button>Add task</Button>
 						</DialogTrigger>
 					</Dialog>
 				)}

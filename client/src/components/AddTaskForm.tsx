@@ -13,16 +13,16 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useCreateTaskMutation } from '@/redux/slices/api/tasksApiSlice'
 import { CreateTaskInput, createTaskSchema } from '@/schemas/task.Schema'
 import { useSelector } from 'react-redux'
-import { RootState } from '@/redux/store'
+
 import { toast } from 'react-toastify'
-import { DialogClose } from './ui/dialog'
+import { RootState } from '@/redux/store'
 
 const AddTaskForm = () => {
 	const { userInfo } = useSelector((state: RootState) => state.auth)
 	const formHandler = useForm<CreateTaskInput>({
 		resolver: zodResolver(createTaskSchema),
 		defaultValues: {
-			author: userInfo._id,
+			author: userInfo!._id,
 			priority: 'Normal',
 			status: 'To Do',
 			title: '',
@@ -34,9 +34,9 @@ const AddTaskForm = () => {
 
 	async function onFormSubmit(values: CreateTaskInput) {
 		try {
-			await createTask(values).unwrap()
-			toast.success('Task created.')
-			formHandler.reset()
+			// await createTask(values).unwrap()
+			// toast.success('Task created.')
+			// formHandler.reset()
 		} catch (error: any) {
 			toast.error(error.message)
 		}
@@ -154,11 +154,9 @@ const AddTaskForm = () => {
 					)}
 				/>
 
-				<DialogClose asChild>
-					<Button type="submit" className="w-full" disabled={isLoading}>
-						{isLoading ? <RotateCcw className="animate-spin" /> : 'Submit'}
-					</Button>
-				</DialogClose>
+				<Button type="submit" className="w-full" disabled={isLoading}>
+					{isLoading ? <RotateCcw className="animate-spin" /> : 'Submit'}
+				</Button>
 			</form>
 		</Form>
 	)
