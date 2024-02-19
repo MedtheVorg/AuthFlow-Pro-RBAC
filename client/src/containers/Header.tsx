@@ -12,7 +12,7 @@ const Header = () => {
 	const { setTheme, theme } = useTheme()
 	const { userInfo } = useSelector((state: RootState) => state.auth)
 	return (
-		<header className="sm:flex sm:justify-between py-3 px-4 border-b  w-full shadow-sm">
+		<header className="sm:flex sm:justify-between py-3 px-4 border-b  w-full shadow-sm bg-primary text-primary-foreground ">
 			<Container>
 				<div className="relative px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
 					<div className="flex items-center justify-between">
