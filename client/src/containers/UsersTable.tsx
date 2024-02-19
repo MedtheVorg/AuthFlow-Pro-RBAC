@@ -1,7 +1,6 @@
 import CustomDataTable from '@/components/CustomDataTable'
 import { columns } from '@/components/users/UsersTableColumns'
 import { useGetUsersQuery } from '@/redux/slices/api/usersApiSlice'
-import { useEffect } from 'react'
 
 const UsersTable = () => {
 	const { data = { users: [] }, isFetching, isLoading } = useGetUsersQuery('')
