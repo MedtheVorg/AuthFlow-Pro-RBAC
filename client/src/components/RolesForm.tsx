@@ -15,6 +15,10 @@ import { Separator } from './ui/separator'
 import { FormEvent, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { RotateCcw } from 'lucide-react'
+import { useGetUserQuery } from '@/redux/slices/api/usersApiSlice'
+import { RootState } from '@/redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { setUserCredentials } from '@/redux/slices/authSlice'
 
 type RolesFormProps = {
 	userRole: Role
@@ -24,11 +28,10 @@ type RolesFormProps = {
 const RolesForm = ({ userRole, permissionsList, targetUserId }: RolesFormProps) => {
 	const [selectedRoleId, setSelectedRoleId] = useState(userRole?._id)
 	const [selectedPermissions, setSelectedPermissions] = useState(userRole?.permissions)
-
+	const { userInfo } = useSelector((state: RootState) => state.auth)
 	const [updateRole, { isLoading: isUpdatingRole }] = useUpdateRoleMutation()
-
 	const { data: fetchedRoleData = { role: {} }, isLoading: roleIsLoading } = useGetRoleByIdQuery(selectedRoleId)
-
+	const dispatch = useDispatch()
 	const [assignRole, { isLoading: isAssigning }] = useAssignRoleMutation()
 	const {
 		data = {
@@ -37,11 +40,9 @@ const RolesForm = ({ userRole, permissionsList, targetUserId }: RolesFormProps) 
 		isLoading,
 		isFetching,
 	} = useGetAllRolesQuery('')
+	const { data: userData = {}, refetch } = useGetUserQuery(userInfo?._id as string)
 
 	function isPermissionChecked(searchedPermission: string) {
-		console.log(selectedPermissions?.findIndex((pr: Permission) => pr.name === searchedPermission) !== -1)
-		console.log(selectedPermissions)
-
 		return selectedPermissions?.findIndex((pr: Permission) => pr._id === searchedPermission) !== -1
 	}
 	function handleCheckboxChange(isChecked: boolean, permission: Permission) {
@@ -57,6 +58,13 @@ const RolesForm = ({ userRole, permissionsList, targetUserId }: RolesFormProps) 
 
 			await updateRole({ roleID: selectedRoleId, roleInput: { permissions: selectedPermissions } }).unwrap()
 			await assignRole({ roleID: selectedRoleId, userID: targetUserId }).unwrap()
+
+			if (selectedRoleId === userInfo?.role._id) {
+				//refetch user data if the modified role is Admin
+				refetch().then((userData) => {
+					dispatch(setUserCredentials(userData.data.user))
+				})
+			}
 			toast.success('Role updated')
 		} catch (err: any) {
 			toast.error(err.errMessage)
@@ -80,8 +88,6 @@ const RolesForm = ({ userRole, permissionsList, targetUserId }: RolesFormProps) 
 							isFetching || isLoading || roleIsLoading || isUpdatingRole || isAssigning || isAssigning
 						}
 						onValueChange={(selectedRoleId) => {
-							console.log('🚀 ~ RolesForm ~ selectedRoleId:', selectedRoleId)
-
 							setSelectedRoleId(selectedRoleId)
 							setSelectedPermissions(fetchedRoleData.role.permissions)
 						}}
