@@ -34,9 +34,9 @@ const AddTaskForm = () => {
 
 	async function onFormSubmit(values: CreateTaskInput) {
 		try {
-			// await createTask(values).unwrap()
-			// toast.success('Task created.')
-			// formHandler.reset()
+			await createTask(values).unwrap()
+			toast.success('Task created.')
+			formHandler.reset()
 		} catch (error: any) {
 			toast.error(error.message)
 		}
